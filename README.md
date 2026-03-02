@@ -17,7 +17,7 @@ Together these servers give AI agents full-stack UE understanding: engine intern
 
 ## Prerequisites
 
-- **Python Remote Execution** must be enabled in the editor: **Edit > Editor Preferences** > search "remote" > check **"Enable Remote Execution?"** under Python Remote Execution. This allows the server to discover and communicate with the running editor. Without it, log tools still work but build triggering will fail.
+- **Python Remote Execution** must be enabled in the editor: **Edit > Project Settings** > search "remote" > under **Python Remote Execution**, check **"Enable Remote Execution?"**. This allows the server to discover and communicate with the running editor. Without it, log tools still work but build triggering will fail.
 
 ## Quick Start
 
