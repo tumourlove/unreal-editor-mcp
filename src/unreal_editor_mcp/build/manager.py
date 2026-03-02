@@ -59,7 +59,7 @@ class BuildManager:
         """Trigger a build via the editor bridge."""
         if build_type == "live_coding":
             result = self._bridge.run_command(
-                "import unreal; unreal.LiveCoding.enable_for_all_modules(True); unreal.LiveCoding.compile()",
+                'import unreal; unreal.SystemLibrary.execute_console_command(None, "LiveCoding.Compile")',
                 exec_mode="ExecuteFile",
             )
             self._on_build_started(build_type)
