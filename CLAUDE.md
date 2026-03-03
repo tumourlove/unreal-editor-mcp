@@ -9,6 +9,7 @@ An MCP (Model Context Protocol) server that provides structured access to UE edi
 **Complements** (does not replace):
 - `unreal-source-mcp` — Engine-level source intelligence
 - `unreal-project-mcp` — Project-level source intelligence
+- `unreal-config-mcp` — Config/INI intelligence (inheritance chains, settings search, diff from defaults, CVars)
 - `unreal-api-mcp` — API surface (signatures, includes, deprecation)
 
 **We provide:** Build control and log visibility — the "feedback loop" for C++ iteration.
