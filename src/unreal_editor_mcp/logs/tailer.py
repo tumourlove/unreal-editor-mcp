@@ -6,6 +6,7 @@ import re
 import threading
 import time
 from collections import defaultdict
+from collections.abc import Callable
 from pathlib import Path
 
 from unreal_editor_mcp.logs.parser import LogEntry, parse_log_line
@@ -13,6 +14,8 @@ from unreal_editor_mcp.logs.parser import LogEntry, parse_log_line
 _DEFAULT_BUFFER_SIZE = 10_000
 _TAIL_INTERVAL = 0.5
 _INITIAL_LINES = 1000
+
+LogSubscriber = Callable[[LogEntry], None]
 
 
 class LogTailer:
@@ -33,6 +36,7 @@ class LogTailer:
         self._thread: threading.Thread | None = None
         self._category_counts: dict[str, int] = defaultdict(int)
         self._severity_counts: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
+        self._subscribers: list[LogSubscriber] = []
         if auto_start:
             self.start()
 
@@ -88,6 +92,10 @@ class LogTailer:
         except OSError:
             pass
 
+    def subscribe(self, callback: LogSubscriber) -> None:
+        """Register a callback to be invoked for each new log entry."""
+        self._subscribers.append(callback)
+
     def _ingest_lines(self, lines: list[str]) -> None:
         """Parse lines and add to buffer, trimming to buffer_size."""
         entries = []
@@ -104,6 +112,12 @@ class LogTailer:
             for entry in entries:
                 self._category_counts[entry.category] += 1
                 self._severity_counts[entry.category][entry.severity] += 1
+        for entry in entries:
+            for subscriber in self._subscribers:
+                try:
+                    subscriber(entry)
+                except Exception:
+                    pass
 
     def get_recent(
         self,

@@ -55,6 +55,10 @@ class BuildManager:
         self._history: list[BuildRecord] = []
         self._current: BuildRecord | None = None
 
+        # Subscribe to live log entries so we detect build completion.
+        if hasattr(tailer, "subscribe"):
+            tailer.subscribe(self.process_log_entry)
+
     def trigger_build(self, build_type: str = "live_coding") -> BuildRecord:
         """Trigger a build via the editor bridge."""
         if build_type == "live_coding":
