@@ -1,6 +1,6 @@
 [project]
 name = "unreal-editor-mcp"
-version = "0.1.1"
+version = "0.1.2"
 description = "Build diagnostics and editor log tools for Unreal Engine AI development via MCP"
 readme = "README.md"
 license = { text = "MIT" }
